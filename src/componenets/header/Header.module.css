@@ -1,0 +1,15 @@
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 10vh;
+    border-bottom: 1px solid black;
+    position: fixed;
+    top: 0;
+    width: 100%
+}
+
+header img {
+    width: 250px;
+    height: 10vh;
+}
