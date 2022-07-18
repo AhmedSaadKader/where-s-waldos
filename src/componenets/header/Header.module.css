@@ -3,7 +3,8 @@ header {
     justify-content: space-around;
     align-items: center;
     height: 10vh;
-    border-bottom: 1px solid black;
+    /* border-bottom: 1px solid black; */
+    box-shadow: 2px 2px gray;
     position: fixed;
     top: 0;
     width: 100%;

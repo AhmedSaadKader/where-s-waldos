@@ -1,5 +1,9 @@
+*{
+    box-sizing: border-box;
+}
 .App {
     display: grid;
-    grid-template-rows: 1fr 13fr;
-    justify-content: center;
+    grid-template-rows: minmax(64px, 80px) 1fr;
+    max-width: 100%;
+    gap: 10px;
 }
