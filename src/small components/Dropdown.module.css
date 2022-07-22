@@ -12,5 +12,10 @@
 .dropdownChoice {
     display: flex;
     justify-content: space-around;
-    margin: 0.4rem 0;
+    /* margin: 0.4rem 0; */
+    padding: 0.5rem;
+}
+
+.dropdownChoice:hover {
+    background-color: rgb(140, 140, 236);
 }

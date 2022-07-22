@@ -1,4 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
+import { database } from "../../firebase-config";
+import { ref, set } from "firebase/database";
 import { useState, useEffect } from "react";
 import { auth } from "../../firebase-config";
 import styles from "./Authentication.module.css";
@@ -18,12 +20,20 @@ export default function Authentication(props) {
     props.setUser();
   };
 
+  function writeUserData(userId, name, email, imageUrl) {
+    set(ref(database, "users/" + userId), {
+      username: name,
+      email: email,
+      profile_picture: imageUrl,
+    });
+  }
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        const userID = user.uid;
+        writeUserData(userID, user.displayName, user.email, user.photoURL);
         props.setUser(user);
-        console.log(user.displayName);
-        console.log(props.user);
         setProfileImage(user.photoURL);
         setUserName(user.displayName);
       } else {
@@ -41,7 +51,9 @@ export default function Authentication(props) {
           <img src={profileImage} alt="profile pic" referrerpolicy="no-referrer" />
           <div>
             <div>{userName}</div>
-            <button onClick={signOutGoogle}>Sign Out</button>
+            <button onClick={signOutGoogle} className={styles.signOutButton}>
+              Sign Out
+            </button>
           </div>
         </div>
       )}

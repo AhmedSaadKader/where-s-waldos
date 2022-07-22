@@ -13,3 +13,7 @@
     background-color: white;
     border: none;
 }
+
+.signOutButton {
+    cursor: pointer;
+}

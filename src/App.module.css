@@ -5,5 +5,5 @@
     display: grid;
     grid-template-rows: minmax(64px, 80px) 1fr;
     max-width: 100%;
-    gap: 10px;
+    /* gap: 5px; */
 }

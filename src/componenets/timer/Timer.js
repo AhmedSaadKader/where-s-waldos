@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 
 export default function Timer(props) {
-  //   const [startTimer, setStartTimer] = useState(false);
+  const [timer, setTimer] = useState(0);
 
-  const startTimer = () => {
+  const timerStart = () => {
     setTimeout(() => {
-      props.setTimer(props.timer + 1);
+      setTimer(timer + 1);
     }, 1000);
   };
 
   useEffect(() => {
-    // startTimer();
-  }, [props.timer]);
+    if (props.startTimer === true) {
+      timerStart();
+      props.setEndTime(timer);
+    } else {
+      setTimer(0);
+    }
+  });
   return (
     <div>
       <h4>
-        Timer <span>{props.timer}</span>
+        Timer <span>{timer}</span>
       </h4>
     </div>
   );
