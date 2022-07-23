@@ -3,25 +3,20 @@ import firstImage from "../images/wheresYoda.jpg";
 import { Link } from "react-router-dom";
 import { levelData } from "../../allLevelData";
 import { click } from "@testing-library/user-event/dist/click";
+import { useEffect } from "react";
 
-export default function FrontPage({
-  setStartTimer,
-  setLevel,
-  setLevelName,
-  setBoard,
-  setCharacters,
-  setCharactersPositions,
-}) {
-  setStartTimer(false);
+export default function FrontPage({ setStartTimer }) {
+  useEffect(() => {
+    setStartTimer(false);
+  }, []);
 
   const createLevelsFront = Object.keys(levelData).map((level) => {
-    console.log(level);
     const gameBoard = levelData[level].board;
     const gameName = levelData[level].name;
 
     const gameLink = `game/${level}`;
     return (
-      <div className={styles.cards}>
+      <div className={styles.cards} key={gameLink}>
         <Link to={gameLink}>
           <img src={gameBoard} alt="gameboard" />
           <div>

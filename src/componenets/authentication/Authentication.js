@@ -31,8 +31,8 @@ export default function Authentication(props) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const userID = user.uid;
-        writeUserData(userID, user.displayName, user.email, user.photoURL);
+        props.setUserID(user.uid);
+        writeUserData(props.userID, user.displayName, user.email, user.photoURL);
         props.setUser(user);
         setProfileImage(user.photoURL);
         setUserName(user.displayName);
@@ -48,7 +48,7 @@ export default function Authentication(props) {
         <button onClick={signWithGoogle}>Sign with Google</button>
       ) : (
         <div className={styles.profileDiv}>
-          <img src={profileImage} alt="profile pic" referrerpolicy="no-referrer" />
+          <img src={profileImage} alt="profile pic" referrerPolicy="no-referrer" />
           <div>
             <div>{userName}</div>
             <button onClick={signOutGoogle} className={styles.signOutButton}>

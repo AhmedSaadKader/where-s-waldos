@@ -13,7 +13,7 @@ export const levelData = {
       yoda: yodaIcon,
     },
     charactersPositions: {
-      yoda: [79, 50],
+      yoda: { position: [79, 50], found: false },
     },
   },
   1: {
@@ -25,7 +25,7 @@ export const levelData = {
       waldo: waldoImage,
     },
     charactersPositions: {
-      waldo: [50, 37],
+      waldo: { position: [50, 37], found: false },
     },
   },
 };

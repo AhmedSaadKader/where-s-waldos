@@ -1,0 +1,23 @@
+.gameTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.gameTitle h1 {
+    margin-inline: auto;
+}
+
+.userTimes {
+    display: flex;
+    flex-direction: column;
+}
+
+.userTimes * {
+    margin: 0;
+}
+
+.userTimes h4 {
+    display: flex;
+    gap: 20px;
+}

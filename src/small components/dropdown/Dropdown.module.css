@@ -1,0 +1,21 @@
+.dropdown {
+    position:absolute;
+    width: 10rem;
+    /* height: 20rem; */
+    background-color: white;
+    border: 1px solid black;
+}
+
+.dropdown img {
+    width: 20%;
+}
+.dropdownChoice {
+    display: flex;
+    justify-content: space-around;
+    /* margin: 0.4rem 0; */
+    padding: 0.5rem;
+}
+
+.dropdownChoice:hover {
+    background-color: rgb(140, 140, 236);
+}

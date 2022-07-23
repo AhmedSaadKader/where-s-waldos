@@ -1,15 +1,14 @@
 import styles from "./Game.module.css";
 import { useEffect, useState } from "react";
-import Dropdown from "../../small components/Dropdown";
-import Leaderboard from "../leaderboard/Leaderboard";
+import Dropdown from "../../small components/dropdown/Dropdown";
 import { useParams } from "react-router-dom";
 import { levelData } from "../../allLevelData";
-import Timer from "../timer/Timer";
+import GameTitle from "../../small components/gameTitle/gameTitle";
 
 export default function Game(props) {
   const [dropDownCoordinates, setDropDownCoordinates] = useState([0, 0]);
   const [imageCoordinates, setImageCoordinates] = useState([0, 0]);
-  const [gameOver, setGameOver] = useState(false);
+  const [clickedCharacter, setClickedCharacter] = useState("");
 
   let { levelNumber } = useParams();
   const singleLevelData = levelData[levelNumber];
@@ -17,8 +16,14 @@ export default function Game(props) {
   const image = singleLevelData.board;
   const characters = singleLevelData.characters;
   const charactersCoordinates = singleLevelData.charactersPositions;
+  const charactersImage = singleLevelData.charactersImage;
 
-  const waldoCoordinates = charactersCoordinates[characters];
+  useEffect(() => {
+    props.setLevelName(gameName);
+    props.setLevelNumber(levelNumber);
+  }, []);
+
+  const [charactersWithCoordinates, setCharactersWithCoordinates] = useState(charactersCoordinates);
 
   const clickOnImage = (e) => {
     const dropDownXCoord = e.pageX;
@@ -30,39 +35,64 @@ export default function Game(props) {
   };
 
   const getRightCoordinates = () => {
+    const clickedCharacterPosition = charactersWithCoordinates[clickedCharacter]["position"];
     if (
-      imageCoordinates[0] <= waldoCoordinates[0] + 2 &&
-      imageCoordinates[0] >= waldoCoordinates[0] - 2 &&
-      imageCoordinates[1] <= waldoCoordinates[1] + 2 &&
-      imageCoordinates[1] >= waldoCoordinates[1] - 2
+      imageCoordinates[0] <= clickedCharacterPosition[0] + 2 &&
+      imageCoordinates[0] >= clickedCharacterPosition[0] - 2 &&
+      imageCoordinates[1] <= clickedCharacterPosition[1] + 2 &&
+      imageCoordinates[1] >= clickedCharacterPosition[1] - 2
     ) {
-      setGameOver(true);
-      console.log("cool");
+      setCharactersWithCoordinates((prevState) => {
+        return {
+          ...prevState,
+          ...(charactersWithCoordinates[clickedCharacter]["found"] = true),
+        };
+      });
+    }
+  };
+
+  const checkFoundCharacters = () => {
+    let trueOrFalse = [];
+    Object.keys(charactersWithCoordinates).forEach((key) => {
+      trueOrFalse.push(charactersWithCoordinates[key]["found"]);
+    });
+    if (trueOrFalse.every((value) => value === true)) {
+      props.setGameOver(true);
     }
   };
 
   useEffect(() => {
-    if (gameOver === false) {
+    checkFoundCharacters();
+  }, [charactersWithCoordinates]);
+
+  useEffect(() => {
+    if (props.gameOver === false) {
       props.setStartTimer(true);
     } else {
       props.setStartTimer(false);
     }
-    getRightCoordinates();
-  }, [imageCoordinates, gameOver]);
+  }, [imageCoordinates, props.gameOver]);
+
+  useEffect(() => {
+    if (clickedCharacter) {
+      const clickedCharacterPosition = charactersWithCoordinates[clickedCharacter]["position"];
+      getRightCoordinates();
+    }
+    setClickedCharacter();
+  }, [clickedCharacter]);
 
   return (
     <div className={styles.gameDiv}>
       <div>
-        <div className={styles.gameTitle}>
-          <Timer
-            startTimer={props.startTimer}
-            setStartTimer={props.setStartTimer}
-            endTime={props.endTime}
-            setEndTime={props.setEndTime}
-          />
-          <h1>{gameName}</h1>
-          <h3>Leaderboard</h3>
-        </div>
+        <GameTitle
+          startTimer={props.startTimer}
+          setStartTimer={props.setStartTimer}
+          endTime={props.endTime}
+          setEndTime={props.setEndTime}
+          gameName={gameName}
+          levelNumber={levelNumber}
+          userID={props.userID}
+        />
         <img
           src={image}
           alt="Waldo where?"
@@ -72,7 +102,15 @@ export default function Game(props) {
             clickOnImage(e);
           }}
         />
-        {props.displayDropdown ? <Dropdown xCoord={dropDownCoordinates[0]} yCoord={dropDownCoordinates[1]} /> : null}
+        {props.displayDropdown ? (
+          <Dropdown
+            xCoord={dropDownCoordinates[0]}
+            yCoord={dropDownCoordinates[1]}
+            characters={characters}
+            charactersImage={charactersImage}
+            setClickedCharacter={setClickedCharacter}
+          />
+        ) : null}
       </div>
     </div>
   );

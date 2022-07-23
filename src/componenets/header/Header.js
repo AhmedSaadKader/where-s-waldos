@@ -13,7 +13,7 @@ export default function Header(props) {
       </Link>
 
       <div>
-        <Authentication user={user} setUser={setUser} />
+        <Authentication user={user} setUser={setUser} userID={props.userID} setUserID={props.setUserID} />
       </div>
     </header>
   );
